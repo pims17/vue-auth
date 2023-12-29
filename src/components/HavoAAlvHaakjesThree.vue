@@ -5,8 +5,7 @@
                 Rekenen met haakjes
             </div>
             <div class="card-body">
-                <h5 class="card-title">Rekenen met haakjes</h5>
-                <p class="card-text">Hier komt de theorie en de uitleg</p>
+                <ExamQuestion></ExamQuestion>
             </div>
             <div class="card-footer d-flex justify-content-center">
                 <nav aria-label="...">
@@ -29,6 +28,8 @@
 
 <script setup>
 import { getAuth } from "firebase/auth"
+
+import ExamQuestion from './ExamQuestion.vue'
 
 const emailVerified = getAuth().currentUser.emailVerified
 </script>
