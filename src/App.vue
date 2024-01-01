@@ -124,4 +124,5 @@ body {
 .custom-control-label {
   font-weight: 400;
 }
+@import "../node_modules/katex/dist/katex.min.css";
 </style>
