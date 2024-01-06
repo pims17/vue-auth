@@ -4,6 +4,7 @@ import App from './App.vue'
 import router from "./router"
 import katexvue3 from "katex-vue3"
 import 'katex/dist/katex.min.css';
+import * as MathfieldElement from 'mathlive'
 
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
@@ -38,4 +39,4 @@ createApp(App).use(router).use(katexvue3, {
     errorColor: "#FF0000" 
   }
 }
-).mount('#app')
+).use(MathfieldElement).mount('#app')

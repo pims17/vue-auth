@@ -5,7 +5,7 @@
                 Rekenen met haakjes
             </div>
             <div class="card-body">
-                <Question />
+                <Question :question-title="'De opgave'" :question-text="'Herleid $N=\\frac{2}{3}(t-1)+3$ tot de vorm $N=at+b$. Wat zijn de waarden van $a$ en $b$?'" />
             </div>
             <div class="card-footer d-flex justify-content-center">
                 <nav aria-label="...">
@@ -33,7 +33,6 @@ import Question from './Question.vue'
 
 const emailVerified = getAuth().currentUser.emailVerified
 </script>
-
 
 <style>
 
