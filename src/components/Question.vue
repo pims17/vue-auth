@@ -16,7 +16,13 @@
                     b = \ \placeholder[answer]{}
                 </math-field>
             </div>
-            <button type="button" class="btn btn-primary btn">Controleren</button>
+            <div style="padding-top: 2%;">
+                <button v-if="type === 'A'" type="button" @click="controleer"
+                    class="btn btn-primary btn">Controleren</button>
+                <button v-else-if="type === 'B'" class="btn btn-success btn">Correct!</button>
+                <button v-else-if="type === 'C'" type="button" @click="controleer" class="btn btn-danger btn">Probeer
+                    opnieuw</button>
+            </div>
         </div>
     </div>
 </template>
@@ -24,6 +30,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
+
 const props = defineProps({
     questionText: String,
     questionTitle: String
@@ -31,6 +38,7 @@ const props = defineProps({
 
 const mf = ref();
 const mf2 = ref();
+let type = ref("A");
 
 onMounted(() => {
     mf.value.menuItems = [];
@@ -49,6 +57,14 @@ const focus = () => {
     };
 }
 
+const controleer = () => {
+    const ce = MathfieldElement.computeEngine;
+    const answerOne = ce.parse(mf.value.getPromptValue("answer"));
+    const answerTwo = ce.parse(mf2.value.getPromptValue("answer"));
+    const correctAnswerOne = ce.parse("\\frac{2}{3}");
+    const correctAnswerTwo = ce.parse("2 \\frac{1}{3}");
+    type.value = answerOne.isSame(correctAnswerOne) && answerTwo.isSame(correctAnswerTwo) ? "B" : "C";
+}
 
 </script>
 
@@ -66,10 +82,6 @@ const focus = () => {
     font-weight: 400;
 }
 
-math-field {
-    scriptDepth: 1
-}
-
 math-field::part(menu-toggle) {
     display: none;
 }
@@ -77,6 +89,7 @@ math-field::part(menu-toggle) {
 math-field::part(prompt) {
     outline: none
 }
+
 body {
     --keycap-height: 70px;
 }
