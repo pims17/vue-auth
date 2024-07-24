@@ -6,6 +6,11 @@
             </div>
             <div class="card-body">
                 <Question :question-title="'De opgave'" :question-text="'Herleid $N=\\frac{2}{3}(t-1)+3$ tot de vorm $N=at+b$. Wat zijn de waarden van $a$ en $b$?'" />
+                <div class="card-body">
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped progress-bar" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" :style="{width: score + '%'}"></div>
+                    </div>
+                </div>
             </div>
             <div class="card-footer d-flex justify-content-center">
                 <nav aria-label="...">
@@ -28,10 +33,21 @@
 
 <script setup>
 import { getAuth } from "firebase/auth"
-
 import Question from './Question.vue'
+import { ref } from "vue"
 
+import {getFirestore, doc, onSnapshot } from "firebase/firestore"
+
+const db = getFirestore();
+const docRef = doc(db, "users", getAuth().currentUser.uid)
 const emailVerified = getAuth().currentUser.emailVerified
+const score = ref(0);
+
+onSnapshot(docRef, (doc) => {
+    score.value = doc.data().alvhaakjes;
+})
+
+
 </script>
 
 <style>

@@ -22,12 +22,15 @@
 import { ref } from "vue"
 import { getAuth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, sendEmailVerification } from "firebase/auth"
 import { useRouter } from "vue-router"
+import { getFirestore, doc, setDoc, } from "firebase/firestore"
 
 const email = ref('')
 const password = ref('')
 
 const router = useRouter()
 const auth = getAuth()
+
+const db = getFirestore()
 
 auth.languageCode = 'nl_NL'
 
@@ -36,8 +39,13 @@ const register = () => {
         .then((data) => {
             console.log("Succesfully registered!");
             console.log(auth.currentUser)
+
             sendVerificationEmail()
             router.push("/verificationsent")
+            const docRef = doc(db, "users", auth.currentUser.uid)
+            setDoc(docRef, {
+                email: email.value
+            });
         })
         .catch((error) => {
             console.log(error.code);

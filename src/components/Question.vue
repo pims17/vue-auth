@@ -31,6 +31,12 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 
+import { getFirestore, doc, setDoc } from 'firebase/firestore'
+import { getAuth } from "firebase/auth"
+
+const db = getFirestore();
+const auth = getAuth();
+
 const props = defineProps({
     questionText: String,
     questionTitle: String
@@ -63,7 +69,18 @@ const controleer = () => {
     const answerTwo = ce.parse(mf2.value.getPromptValue("answer"));
     const correctAnswerOne = ce.parse("\\frac{2}{3}");
     const correctAnswerTwo = ce.parse("2 \\frac{1}{3}");
-    type.value = answerOne.isSame(correctAnswerOne) && answerTwo.isSame(correctAnswerTwo) ? "B" : "C";
+    const correct = answerOne.isSame(correctAnswerOne) && answerTwo.isSame(correctAnswerTwo);
+    if (correct) {
+        const docRef = doc(db, "users", auth.currentUser.uid)
+        try {
+            setDoc(docRef, {
+                alvhaakjes: 100
+            });
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    type.value = correct ? "B" : "C";
 }
 
 </script>
