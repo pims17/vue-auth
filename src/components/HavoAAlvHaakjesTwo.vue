@@ -5,7 +5,14 @@
                 Rekenen met haakjes
             </div>
             <div class="card-body">
-                <Question :question-title="'De opgave'" :question-text="'Herleid $N=\\frac{2}{3}(t-1)+3$ tot de vorm $N=at+b$. Wat zijn de waarden van $a$ en $b$?'" />
+                <Question :question-title="'De opgave'" 
+                :question-text="questionData[cq].questionText" 
+                :question-category="'hahaakjes'"
+                :question-id="cq"
+                :answer-one="questionData[cq].answerOne"
+                :answer-two="questionData[cq].answerTwo"
+                :answer-one-header="questionData[cq].answerOneHeader"
+                :answer-two-header="questionData[cq].answerTwoHeader"/>
                 <div class="card-body">
                     <div class="progress">
                         <div class="progress-bar progress-bar-striped progress-bar" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" :style="{width: score + '%'}"></div>
@@ -47,6 +54,28 @@ onSnapshot(docRef, (doc) => {
     score.value = doc.data().alvhaakjes;
 })
 
+const cq = ref(2);
+const questionData = { 1: {
+    "questionText": 'Herleid $N=\\frac{2}{3}(t-1)+3$ tot de vorm $N=at+b$. Wat zijn de waarden van $a$ en $b$?',
+    "answerOne": '\\frac{2}{3}',
+    "answerTwo": '2 \\frac{1}{3}',
+    "answerOneHeader": 'a',
+    "answerTwoHeader": 'b'
+},
+2: {
+    "questionText": 'Herleid $y=-3(x-\\frac{1}{3})$ tot de vorm $y=ax+b$. Wat zijn de waarden van $a$ en $b$?',
+    "answerOne": '-3',
+    "answerTwo": '1',
+    "answerOneHeader": 'a',
+    "answerTwoHeader": 'b'
+},
+3: {
+    "questionText": 'Herleid $N=0{\\small,}02(0{\\small,}3t^2-t)\\cdot 5$ tot de vorm $N=at^2+bt$. Wat zijn de waarden van $a$ en $b$?',
+    "answerOne": '0.03',
+    "answerTwo": '-0.1',
+    "answerOneHeader": 'a',
+    "answerTwoHeader": 'b'
+}}
 
 </script>
 

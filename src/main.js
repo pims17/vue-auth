@@ -10,6 +10,7 @@ import * as ComputeEngine from '@cortex-js/compute-engine'
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
+import { locale } from 'core-js';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -37,7 +38,8 @@ createApp(App).use(router).use(katexvue3, {
   options: {
     displayMode: false, 
     throwOnError: false, 
-    errorColor: "#FF0000" 
+    errorColor: "#FF0000", 
+    locale: "nl"
   }
 }
 ).use(MathfieldElement).use(ComputeEngine).mount('#app')
