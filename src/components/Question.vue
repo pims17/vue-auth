@@ -20,24 +20,32 @@
                 <button v-if="type === 'A'" type="button" @click="controleer"
                     class="btn btn-primary btn">Controleren</button>
                 <button v-else-if="type === 'B'" class="btn btn-success btn">Correct!</button>
-                <button v-else-if="type === 'C'" type="button" @click="controleer" class="btn btn-danger btn">Probeer
-                    opnieuw</button>
-                <button v-if="type === 'B'" class="btn btn-primary btn" style="float: right;">Volgende vraag</button>
+                <button v-else-if="type === 'C'" type="button" class="btn btn-danger btn">Helaas</button>
+                <button v-if="type === 'B' || type === 'C'" @click="changeQuestion" class="btn btn-primary btn"
+                    style="float: right;">Ga verder</button>
             </div>
-            
         </div>
     </div>
 </template>
 
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, defineEmits } from 'vue'
 
 import { getFirestore, doc, setDoc } from 'firebase/firestore'
 import { getAuth } from "firebase/auth"
 
 const db = getFirestore();
 const auth = getAuth();
+
+const emit = defineEmits(['changeQuestion'])
+
+const changeQuestion = () => {
+    type.value = 'A'
+    clearAnswer(mf)
+    clearAnswer(mf2)
+    emit('changeQuestion')
+}
 
 const props = defineProps({
     questionText: String,
@@ -79,24 +87,29 @@ const controleer = () => {
     const correctAnswerOne = ce.parse(props.answerOne);
     const correctAnswerTwo = ce.parse(props.answerTwo);
     const correct = answerOne.isSame(correctAnswerOne) && answerTwo.isSame(correctAnswerTwo);
-    if (correct) {
-        const docRef = doc(db, "users", auth.currentUser.uid)
-        console.log("hi")
-        console.log(props.questionCategory)
-        try {
-            setDoc(docRef, {
-                [props.questionCategory]: {
-                    [props.questionId]: true
-                }
-            },
-        { merge: true});
-        } catch (error) {
-            console.log(error)
-        }
+    const docRef = doc(db, "users", auth.currentUser.uid)
+    try {
+        setDoc(docRef, {
+            [props.questionCategory]: {
+                [props.questionId]: correct
+            }
+        },
+            { merge: true });
+    } catch (error) {
+        console.log(error)
     }
     type.value = correct ? "B" : "C";
 }
 
+const clearAnswer = (mf) => {
+    if (mf.value) {
+        let currentValue = mf.value.getValue();
+        // Assuming you want to clear only the user input after the equal sign
+        // This regex will replace the user input while keeping the structure intact
+        let newValue = currentValue.replace(/(=\s*)\S.*/g, '$1\\placeholder[answer]{}'); // Resetting to a placeholder
+        mf.value.setValue(newValue);
+    }
+}
 </script>
 
 <style>

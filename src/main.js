@@ -38,8 +38,7 @@ createApp(App).use(router).use(katexvue3, {
   options: {
     displayMode: false, 
     throwOnError: false, 
-    errorColor: "#FF0000", 
-    locale: "nl"
+    errorColor: "#FF0000"
   }
 }
 ).use(MathfieldElement).use(ComputeEngine).mount('#app')
