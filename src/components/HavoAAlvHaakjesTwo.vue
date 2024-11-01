@@ -53,8 +53,10 @@ const moduleName = 'hahaakjes'
 const db = getFirestore();
 const docRef = doc(db, "users", getAuth().currentUser.uid)
 const emailVerified = getAuth().currentUser.emailVerified
-const completed = ref()
+const completed = ref(true)
 const score = ref(0);
+const loading = ref(true);
+
 let falseKeys = [];
 
 const handleChangeQuestion = () => {
@@ -110,9 +112,8 @@ onSnapshot(docRef, (doc) => {
 
 onMounted(async () => {
     const docSnap = await getDoc(docRef);
-    if(Object.values(docSnap.data().hahaakjes).filter(value => value === false).length === 0){
-        completed.value = true;
-    }
+    completed.value = docSnap.data().completed
+    loading.value = false
 })
 
 let cq = ref(1);
@@ -144,4 +145,8 @@ const questionQueue = ref(Array.from({ length: Object.keys(questionData).length 
 
 </script>
 
-<style></style>
+<style>
+[v-cloak] {
+    display: none;
+}
+</style>
