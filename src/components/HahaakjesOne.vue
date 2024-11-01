@@ -16,8 +16,8 @@
                                 <span class="sr-only">(current)</span>
                             </span>
                         </li>
-                        <router-link to="/havoaalvhaakjes-2" class="page-link">Oefenen</router-link>
-                        <router-link to="/havoaalvhaakjes-3" class="page-link rounded-right">Examenopgaven</router-link>
+                        <router-link to="/hahaakjes-2" class="page-link">Oefenen</router-link>
+                        <router-link to="/hahaakjes-3" class="page-link rounded-right">Examenopgaven</router-link>
                     </ul>
                 </nav>
             </div>

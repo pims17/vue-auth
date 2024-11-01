@@ -5,10 +5,10 @@
                 {{ moduleTitle }}
             </div>
             <div v-if="!completed" class="card-body">
-                <Question :question-title="'De opgave'" :question-text="questionData[cq].questionText"
-                    :question-category="moduleName" :question-id="cq" :answer-one="questionData[cq].answerOne"
-                    :answer-two="questionData[cq].answerTwo" :answer-one-header="questionData[cq].answerOneHeader"
-                    :answer-two-header="questionData[cq].answerTwoHeader" @change-question="handleChangeQuestion" />
+                <QuestionTypeOne :question-title="'De opgave'" :question-text="props.questionData[cq].props.questionText"
+                    :question-category="moduleName" :question-id="cq" :answer-one="props.questionData[cq].props.answerOne"
+                    :answer-two="props.questionData[cq].props.answerTwo" :answer-one-header="props.questionData[cq].props.answerOneHeader"
+                    :answer-two-header="props.questionData[cq].props.answerTwoHeader" @change-question="handleChangeQuestion" />
                 <div class="card-body">
                     <div class="progress">
                         <div class="progress-bar progress-bar-striped progress-bar" role="progressbar"
@@ -27,14 +27,14 @@
             <div class="card-footer d-flex justify-content-center">
                 <nav aria-label="...">
                     <ul class="pagination pagination-lg">
-                        <router-link to="/havoaalvhaakjes-1" class="page-link rounded-left">Theorie</router-link>
+                        <router-link :to="moduleName + '-1'"  class="page-link rounded-left">Theorie</router-link>
                         <li class="page-item active" aria-current="page">
                             <span class="page-link">
                                 Oefenen
                                 <span class="sr-only">(current)</span>
                             </span>
                         </li>
-                        <router-link to="/havoaalvhaakjes-3" class="page-link rounded-right">Examenopgaven</router-link>
+                        <router-link :to="moduleName + '-3'"  class="page-link rounded-right">Examenopgaven</router-link>
                     </ul>
                 </nav>
             </div>
@@ -45,18 +45,23 @@
 
 <script setup>
 import { getAuth } from "firebase/auth"
-import Question from './Question.vue'
+import QuestionTypeOne from './QuestionTypeOne.vue'
 import { ref, onMounted } from "vue"
 import { getFirestore, doc, onSnapshot, setDoc, getDoc, updateDoc } from "firebase/firestore"
 
 const props = defineProps({
-  moduleName: {
-    type: String
-  },
-  moduleTitle: {
-    type: String
-  }
-})
+    moduleName: {
+        type: String
+    },
+    moduleTitle: {
+        type: String
+    },
+    questionData: {
+        type: Object,
+        required: true
+    }
+}
+)
 
 const db = getFirestore();
 const docRef = doc(db, "users", getAuth().currentUser.uid)
@@ -70,8 +75,6 @@ let falseKeys = [];
 const handleChangeQuestion = () => {
     if (questionQueue.value.length > 0) {
         cq.value = questionQueue.value.shift()
-        console.log(questionQueue.value)
-        console.log(cq.value)
     }
     else {
         questionQueue.value = [...falseKeys]
@@ -124,34 +127,9 @@ onMounted(async () => {
 })
 
 let cq = ref(1);
-const questionData = {
-    1: {
-        "questionText": 'Herleid $N=\\frac{2}{3}(t-1)+3$ tot de vorm $N=at+b$. Wat zijn de waarden van $a$ en $b$?',
-        "answerOne": '\\frac{2}{3}',
-        "answerTwo": '2 \\frac{1}{3}',
-        "answerOneHeader": 'a',
-        "answerTwoHeader": 'b'
-    },
-    2: {
-        "questionText": 'Herleid $y=-3(x-\\frac{1}{3})$ tot de vorm $y=ax+b$. Wat zijn de waarden van $a$ en $b$?',
-        "answerOne": '-3',
-        "answerTwo": '1',
-        "answerOneHeader": 'a',
-        "answerTwoHeader": 'b'
-    },
-    3: {
-        "questionText": 'Herleid $N=0{\\small,}02(0{\\small,}3t^2-t)\\cdot 5$ tot de vorm $N=at^2+bt$. Wat zijn de waarden van $a$ en $b$?',
-        "answerOne": '0.03',
-        "answerTwo": '-0.1',
-        "answerOneHeader": 'a',
-        "answerTwoHeader": 'b'
-    }
-}
 
-const questionQueue = ref(Array.from({ length: Object.keys(questionData).length - 1 }, (_, i) => i + 2));
+const questionQueue = ref(Array.from({ length: Object.keys(props.questionData).length - 1 }, (_, i) => i + 2));
 
 </script>
 
-<style>
-
-</style>
+<style></style>

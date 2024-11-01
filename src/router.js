@@ -7,9 +7,9 @@ import Feed from './components/Feed.vue'
 import HavoA from './components/HavoA.vue'
 import HavoAAv from './components/HavoAAv.vue'
 import HavoAAlv from './components/HavoAAlv.vue'
-import HavoAAlvHaakjesOne from './components/HavoAAlvHaakjesOne.vue'
-import HavoAAlvHaakjesTwo from './components/HavoAAlvHaakjesTwo.vue'
-import HavoAAlvHaakjesThree from './components/HavoAAlvHaakjesThree.vue'
+import HahaakjesOne from './components/HahaakjesOne.vue'
+import HahaakjesTwo from './components/HahaakjesTwo.vue'
+import HahaakjesThree from './components/HahaakjesThree.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 
@@ -40,17 +40,17 @@ const routes = [
     }
   },
   {
-    path: '/havoaalvhaakjes-1', name: 'HavoAAlvHaakjesOne', component: HavoAAlvHaakjesOne, meta: {
+    path: '/hahaakjes-1', name: 'HahaakjesOne', component: HahaakjesOne, meta: {
       requiresAuth: true
     }
   },
   {
-    path: '/havoaalvhaakjes-2', name: 'HavoAAlvHaakjesTwo', component: HavoAAlvHaakjesTwo, meta: {
+    path: '/hahaakjes-2', name: 'HahaakjesTwo', component: HahaakjesTwo, meta: {
       requiresAuth: true
     }
   },
   {
-    path: '/havoaalvhaakjes-3', name: 'HavoAAlvHaakjesThree', component: HavoAAlvHaakjesThree, meta: {
+    path: '/hahaakjes-3', name: 'HahaakjesThree', component: HahaakjesThree, meta: {
       requiresAuth: true
     }
   }

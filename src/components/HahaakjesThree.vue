@@ -10,8 +10,8 @@
             <div class="card-footer d-flex justify-content-center">
                 <nav aria-label="...">
                     <ul class="pagination pagination-lg">
-                        <router-link to="/havoaalvhaakjes-1" class="page-link rounded-left">Theorie</router-link>
-                        <router-link to="/havoaalvhaakjes-2" class="page-link">Oefenen</router-link>
+                        <router-link to="/hahaakjes-1" class="page-link rounded-left">Theorie</router-link>
+                        <router-link to="/hahaakjes-2" class="page-link">Oefenen</router-link>
                         <li class="page-item active" aria-current="page">
                             <span class="page-link">
                                 Examenopgaven
